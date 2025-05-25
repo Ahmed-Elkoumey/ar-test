@@ -34,9 +34,35 @@ export class ArViewerComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.initMetaViewport();
+    this.initPreventPullToRefresh();
     this.initThree();
     this.loadModel(this.modelUrl);
     this.animate();
+  }
+
+  private initMetaViewport(): void {
+    let viewport = document.querySelector("meta[name=viewport]");
+    if (!viewport) {
+      viewport = document.createElement("meta");
+      (viewport as HTMLMetaElement).name = "viewport";
+      document.head.appendChild(viewport);
+    }
+    viewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no");
+  }
+
+  private initPreventPullToRefresh(): void {
+    let maybePrevent = false;
+    window.addEventListener('touchstart', e => {
+      maybePrevent = window.scrollY === 0;
+    }, { passive: false });
+
+    window.addEventListener('touchmove', e => {
+      if (maybePrevent) {
+        maybePrevent = false;
+        e.preventDefault();
+      }
+    }, { passive: false });
   }
 
   private initThree(): void {
@@ -79,7 +105,7 @@ export class ArViewerComponent implements OnChanges, OnInit, OnDestroy {
     canvas.addEventListener('pointermove', this.onPointerMove);
     canvas.addEventListener('pointerup', this.onPointerUp);
     canvas.addEventListener('wheel', this.onMouseWheel);
-    // add event listeners for touch events if needed
+
     canvas.addEventListener('touchstart', (event: TouchEvent) => {
       const touch = event.touches[0];
       if (touch) {
@@ -106,7 +132,6 @@ export class ArViewerComponent implements OnChanges, OnInit, OnDestroy {
     });
     canvas.addEventListener('touchend', this.onPointerUp);
     canvas.addEventListener('touchcancel', this.onPointerUp);
-
   }
 
   private onPointerDown = (event: PointerEvent): void => {
