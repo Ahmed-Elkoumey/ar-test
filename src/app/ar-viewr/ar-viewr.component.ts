@@ -41,7 +41,7 @@ export class ArViewerComponent implements OnChanges, OnInit, OnDestroy {
 
   private initThree(): void {
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(150, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.z = 2;
 
     this.renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -79,6 +79,34 @@ export class ArViewerComponent implements OnChanges, OnInit, OnDestroy {
     canvas.addEventListener('pointermove', this.onPointerMove);
     canvas.addEventListener('pointerup', this.onPointerUp);
     canvas.addEventListener('wheel', this.onMouseWheel);
+    // add event listeners for touch events if needed
+    canvas.addEventListener('touchstart', (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (touch) {
+        const pointerEvent = new PointerEvent('pointerdown', {
+          bubbles: true,
+          cancelable: true,
+          clientX: touch.clientX,
+          clientY: touch.clientY,
+        });
+        this.onPointerDown(pointerEvent);
+      }
+    });
+    canvas.addEventListener('touchmove', (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (touch) {
+        const pointerEvent = new PointerEvent('pointermove', {
+          bubbles: true,
+          cancelable: true,
+          clientX: touch.clientX,
+          clientY: touch.clientY,
+        });
+        this.onPointerMove(pointerEvent);
+      }
+    });
+    canvas.addEventListener('touchend', this.onPointerUp);
+    canvas.addEventListener('touchcancel', this.onPointerUp);
+
   }
 
   private onPointerDown = (event: PointerEvent): void => {
