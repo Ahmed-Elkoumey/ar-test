@@ -1,0 +1,21 @@
+ <div class="model-wrapper">
+    @if (modelSrc) {
+     <model-viewer
+     [attr.src]="modelSrc"
+     alt="A 3D model"
+     auto-rotate
+     camera-controls
+     ar
+     loading="eager"
+     interaction-prompt="none"
+     shadow-intensity="1"
+     camera-orbit="0deg 75deg 25m"
+     field-of-view="30deg"
+   >
+   
+           <div slot="poster" class="loading-spinner">
+             Loading 3D Model...
+           </div>
+         </model-viewer>
+    }
+    </div>
