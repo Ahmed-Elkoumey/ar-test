@@ -6,7 +6,7 @@ import { ThreeDModelComponent } from './components/three-d-model/three-d-model.c
 @Component({
   selector: 'ar-root',
   standalone: true,
-  imports: [RouterOutlet,ArViewerComponent,ThreeDModelComponent],
+  imports: [ArViewerComponent, RouterOutlet, ThreeDModelComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
