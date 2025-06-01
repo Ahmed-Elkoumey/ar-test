@@ -1,21 +1,24 @@
- <div class="model-wrapper">
-    @if (modelSrc) {
-     <model-viewer
-     [attr.src]="modelSrc"
-     alt="A 3D model"
-     auto-rotate
-     camera-controls
-     ar
-     loading="eager"
-     interaction-prompt="none"
-     shadow-intensity="1"
-     camera-orbit="0deg 75deg 25m"
-     field-of-view="30deg"
-   >
-   
-           <div slot="poster" class="loading-spinner">
-             Loading 3D Model...
-           </div>
-         </model-viewer>
-    }
-    </div>
+<div class="model-wrapper">
+  @if (modelSrc) {
+    <model-viewer
+      [attr.src]="modelSrc"
+      ios-src="assets/model.usdz"
+      alt="A 3D model"
+      auto-rotate
+      camera-controls
+      ar
+      ar-modes="scene-viewer quick-look webxr"
+      ar-scale="auto"
+      loading="eager"
+      interaction-prompt="none"
+      shadow-intensity="1"
+      camera-orbit="0deg 75deg 25m"
+      field-of-view="30deg"
+    >
+      <div slot="poster" class="loading-spinner">
+        Loading 3D Model...
+      </div>
+      <button slot="ar-button" class="ar-button">View in your space</button>
+    </model-viewer>
+  }
+</div>
